@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Control de Cámaras</title>
+<title>CAM / CTRL</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
   --bg:#0f0f0f;
-  --surface:#1a1a1a;
-  --surface2:#222;
-  --border:#2e2e2e;
-  --accent:#e8ff47;
-  --accent2:#47c8ff;
-  --accent3:#ff6b47;
-  --text:#f0f0f0;
-  --muted:#777;
-  --muted2:#444;
-  --font-mono:'Space Mono', monospace;
-  --font-body:'DM Sans', sans-serif;
+  --surface:#181818;
+  --surface2:#232323;
+  --border:#303030;
+  --text:#f2f2f2;
+  --muted:#7a7a7a;
+
+  --moto:#e8ff47;
+  --bici:#47c8ff;
+  --auto:#ff6b47;
+  --picos:#b47fff;
 }
 
 *{
@@ -35,71 +33,35 @@
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:var(--font-body);
+  font-family:'DM Sans',sans-serif;
   overflow-x:hidden;
 }
 
 header{
   background:var(--surface);
   border-bottom:1px solid var(--border);
-  padding:14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
+  padding:16px;
 }
 
 .logo{
-  font-family:var(--font-mono);
-  color:var(--accent);
+  color:var(--moto);
+  font-family:'Space Mono',monospace;
   font-weight:700;
   font-size:1rem;
 }
 
-.header-stats{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.hstat{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  font-size:0.8rem;
-  color:var(--muted);
-}
-
-.hstat strong{
-  color:var(--text);
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-}
-
-.dot.moto{ background:var(--accent); }
-.dot.bici{ background:var(--accent2); }
-.dot.auto{ background:var(--accent3); }
-
 main{
-  width:100%;
-  max-width:100%;
   padding:14px;
 }
 
+/* TABS */
+
 .tabs{
   display:flex;
-  gap:6px;
-  margin-bottom:12px;
+  gap:8px;
   overflow-x:auto;
-  overflow-y:hidden;
-  padding-bottom:2px;
   scrollbar-width:none;
-  width:100%;
+  margin-bottom:16px;
 }
 
 .tabs::-webkit-scrollbar{
@@ -108,62 +70,82 @@ main{
 
 .tab{
   border:none;
+  min-width:120px;
+  padding:10px 14px;
+  border-radius:10px;
   background:var(--surface);
   border:1px solid var(--border);
   color:var(--muted);
-  padding:10px 14px;
-  border-radius:8px;
+  font-weight:700;
   cursor:pointer;
-  font-size:0.82rem;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  min-width:120px;
   flex-shrink:0;
-  white-space:nowrap;
 }
 
 .tab.active{
   color:#000;
 }
 
-.tab.active.moto{
-  background:var(--accent);
+.tab.moto.active{ background:var(--moto); }
+.tab.bici.active{ background:var(--bici); }
+.tab.auto.active{ background:var(--auto); }
+.tab.picos.active{ background:var(--picos); }
+
+/* RESUMEN */
+
+.resume{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:16px;
 }
 
-.tab.active.bici{
-  background:var(--accent2);
-}
-
-.tab.active.auto{
-  background:var(--accent3);
-}
-
-.tab.active.picos{
-  background:#b47fff;
-}
-
-.tab-count{
-  font-size:0.7rem;
-}
-
-.save-row{
-  display:flex;
-  justify-content:flex-end;
+.resume-title{
+  color:var(--muted);
+  font-size:0.72rem;
   margin-bottom:12px;
+  font-family:'Space Mono',monospace;
 }
 
-.btn-save{
-  background:var(--accent);
+.resume-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+
+/* ACCIONES */
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.btn{
   border:none;
-  color:#000;
-  padding:10px 14px;
-  border-radius:8px;
+  border-radius:10px;
+  padding:12px 14px;
   font-weight:700;
   cursor:pointer;
 }
+
+.btn-save{
+  background:var(--moto);
+  color:#000;
+}
+
+.btn-summary{
+  background:var(--bici);
+  color:#000;
+}
+
+.btn-reset{
+  background:var(--auto);
+  color:#fff;
+}
+
+/* SECCIONES */
 
 .section{
   display:none;
@@ -173,275 +155,143 @@ main{
   display:block;
 }
 
-.progress-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  margin-bottom:14px;
-}
-
-.progress-header{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-  gap:10px;
-}
-
-.progress-title{
-  color:var(--muted);
-  font-size:0.75rem;
-  font-family:var(--font-mono);
-}
-
-.progress-nums{
-  font-family:var(--font-mono);
-  font-weight:700;
-}
-
-.progress-bar{
-  height:8px;
-  background:var(--muted2);
-  border-radius:999px;
-  overflow:hidden;
-}
-
-.progress-fill{
-  height:100%;
-}
-
-.fill-moto{ background:var(--accent); }
-.fill-bici{ background:var(--accent2); }
-.fill-auto{ background:var(--accent3); }
-.fill-picos{ background:#b47fff; }
-
-.progress-pct{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:0.72rem;
-}
-
-.reset-row{
-  display:flex;
-  justify-content:flex-end;
-  margin-bottom:14px;
-}
-
-.btn-reset{
-  background:transparent;
-  border:1px solid var(--muted2);
-  color:var(--muted);
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
-}
+/* GRID */
 
 .items-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  margin-bottom:18px;
+  gap:10px;
 }
 
-.item-btn{
+.item{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px 8px;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+  border-radius:14px;
+  padding:12px;
 }
 
-.item-btn.done.moto{
-  background:rgba(232,255,71,0.08);
-  border-color:rgba(232,255,71,0.3);
-}
-
-.item-btn.done.bici{
-  background:rgba(71,200,255,0.08);
-  border-color:rgba(71,200,255,0.3);
-}
-
-.item-btn.done.auto{
-  background:rgba(255,107,71,0.08);
-  border-color:rgba(255,107,71,0.3);
-}
-
-.item-btn.done.picos{
-  background:rgba(180,127,255,0.08);
-  border-color:rgba(180,127,255,0.3);
-}
-
-.item-check{
-  position:absolute;
-  top:5px;
-  right:7px;
-  font-size:0.7rem;
-  opacity:0;
-}
-
-.item-btn.done .item-check{
-  opacity:1;
-}
-
-.item-label{
-  font-size:0.76rem;
-  text-align:center;
+.item-title{
+  font-size:0.82rem;
   font-weight:700;
-  word-break:break-word;
+}
+
+.item-stock{
+  font-size:0.68rem;
+  color:var(--muted);
+  margin-top:4px;
 }
 
 .item-date{
-  font-size:0.56rem;
+  font-size:0.55rem;
   color:var(--muted);
-  text-align:center;
-  line-height:1.3;
-  min-height:26px;
+  margin-top:8px;
+  min-height:16px;
 }
 
-.qty-row{
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:12px;
+}
+
+.counter{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:8px;
 }
 
-.qty-btn{
-  width:24px;
-  height:24px;
-  border-radius:5px;
-  border:1px solid var(--muted2);
-  background:transparent;
-  color:var(--text);
+.counter button{
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:8px;
+  background:var(--surface2);
+  color:#fff;
+  font-size:1rem;
   cursor:pointer;
 }
 
-.qty-display{
-  min-width:18px;
+.counter-value{
+  min-width:24px;
   text-align:center;
-  font-family:var(--font-mono);
+  font-weight:700;
 }
 
-.log-section{
+.stock-left{
+  font-size:0.7rem;
+  color:var(--muted);
+}
+
+/* RESUMEN DEL DÍA */
+
+.summary{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:10px;
+  border-radius:14px;
   padding:14px;
+  margin-top:18px;
+  display:none;
 }
 
-.log-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.log-title{
+.summary-title{
   color:var(--muted);
-  font-size:0.8rem;
-  font-family:var(--font-mono);
+  font-size:0.72rem;
+  margin-bottom:14px;
+  font-family:'Space Mono',monospace;
 }
 
-.btn-clear{
-  background:transparent;
-  border:1px solid var(--muted2);
-  color:var(--muted);
-  padding:6px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.log-list{
-  list-style:none;
-  max-height:240px;
-  overflow-y:auto;
-}
-
-.log-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
+.summary-line{
   padding:8px 0;
   border-bottom:1px solid var(--border);
-  font-size:0.72rem;
+  font-size:0.8rem;
 }
 
-.log-item:last-child{
+/* REGISTROS */
+
+.logs{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  margin-top:18px;
+}
+
+.logs-title{
+  color:var(--muted);
+  font-size:0.72rem;
+  margin-bottom:14px;
+  font-family:'Space Mono',monospace;
+}
+
+.log{
+  border-bottom:1px solid var(--border);
+  padding:12px 0;
+}
+
+.log:last-child{
   border-bottom:none;
 }
 
-.log-empty{
-  text-align:center;
+.log-date{
   color:var(--muted);
-  padding:20px 0;
+  font-size:0.65rem;
+  margin-bottom:8px;
 }
 
-.modal-overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.7);
-  align-items:center;
-  justify-content:center;
-  z-index:999;
+.log-content{
+  font-size:0.78rem;
+  line-height:1.6;
 }
 
-.modal-overlay.open{
-  display:flex;
-}
-
-.modal{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:20px;
-  width:90%;
-  max-width:320px;
-  text-align:center;
-}
-
-.modal h3{
-  margin-bottom:10px;
-}
-
-.modal p{
-  color:var(--muted);
-  margin-bottom:16px;
-  font-size:0.85rem;
-}
-
-.modal-actions{
-  display:flex;
-  gap:8px;
-  justify-content:center;
-}
-
-.btn-cancel,
-.btn-confirm{
-  border:none;
-  padding:10px 14px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.btn-cancel{
-  background:var(--surface2);
-  color:var(--text);
-}
-
-.btn-confirm{
-  background:var(--accent3);
-  color:#fff;
+.log-content strong{
+  color:var(--moto);
 }
 
 @media(min-width:700px){
 
   .items-grid{
-    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
   }
 
 }
@@ -452,33 +302,7 @@ main{
 <body>
 
 <header>
-
-  <div class="logo">
-    CAM/CTRL
-  </div>
-
-  <div class="header-stats">
-
-    <div class="hstat">
-      <span class="dot moto"></span>
-      <strong id="h-moto">0</strong>
-      motos
-    </div>
-
-    <div class="hstat">
-      <span class="dot bici"></span>
-      <strong id="h-bici">0</strong>
-      bicis
-    </div>
-
-    <div class="hstat">
-      <span class="dot auto"></span>
-      <strong id="h-auto">0</strong>
-      autos
-    </div>
-
-  </div>
-
+  <div class="logo">CAM / CTRL</div>
 </header>
 
 <main>
@@ -487,280 +311,171 @@ main{
 
   <button class="tab moto active" onclick="switchTab('moto',this)">
     🏍️ Motos
-    <span class="tab-count" id="tc-moto">0/0</span>
   </button>
 
   <button class="tab bici" onclick="switchTab('bici',this)">
     🚲 Bicis
-    <span class="tab-count" id="tc-bici">0/0</span>
   </button>
 
   <button class="tab auto" onclick="switchTab('auto',this)">
     🚗 Autos
-    <span class="tab-count" id="tc-auto">0/0</span>
   </button>
 
   <button class="tab picos" onclick="switchTab('picos',this)">
     📌 Picos
-    <span class="tab-count" id="tc-picos">0/0</span>
   </button>
 
 </div>
 
-<div class="save-row">
-  <button class="btn-save" onclick="manualSave()">
-    Guardar registro
+<div class="resume">
+
+  <div class="resume-title">
+    // STOCK CARGADO
+  </div>
+
+  <div class="resume-row">
+    <span>Motos</span>
+    <strong id="resume-moto">0</strong>
+  </div>
+
+  <div class="resume-row">
+    <span>Bicis</span>
+    <strong id="resume-bici">0</strong>
+  </div>
+
+  <div class="resume-row">
+    <span>Autos</span>
+    <strong id="resume-auto">0</strong>
+  </div>
+
+  <div class="resume-row">
+    <span>Picos</span>
+    <strong id="resume-picos">0</strong>
+  </div>
+
+</div>
+
+<div class="actions">
+
+  <button class="btn btn-save" onclick="guardarCierre()">
+    Guardar cierre
   </button>
+
+  <button class="btn btn-summary" onclick="mostrarResumen()">
+    Ver resumen
+  </button>
+
+  <button class="btn btn-reset" onclick="reiniciarVentas()">
+    Reiniciar ventas
+  </button>
+
 </div>
 
 <div class="section active" id="sec-moto">
-  <div class="progress-card">
-    <div class="progress-header">
-      <span class="progress-title">// CÁMARAS DE MOTO</span>
-      <span class="progress-nums">
-        <span id="done-moto">0</span> /
-        <span id="total-moto">0</span>
-      </span>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill fill-moto" id="bar-moto"></div>
-    </div>
-
-    <div class="progress-pct" id="pct-moto">
-      0% completado
-    </div>
-  </div>
-
-  <div class="reset-row">
-    <button class="btn-reset" onclick="confirmReset('moto')">
-      Resetear motos
-    </button>
-  </div>
-
   <div class="items-grid" id="grid-moto"></div>
 </div>
 
 <div class="section" id="sec-bici">
-  <div class="progress-card">
-    <div class="progress-header">
-      <span class="progress-title">// CÁMARAS DE BICI</span>
-      <span class="progress-nums">
-        <span id="done-bici">0</span> /
-        <span id="total-bici">0</span>
-      </span>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill fill-bici" id="bar-bici"></div>
-    </div>
-
-    <div class="progress-pct" id="pct-bici">
-      0% completado
-    </div>
-  </div>
-
-  <div class="reset-row">
-    <button class="btn-reset" onclick="confirmReset('bici')">
-      Resetear bicis
-    </button>
-  </div>
-
   <div class="items-grid" id="grid-bici"></div>
 </div>
 
 <div class="section" id="sec-auto">
-  <div class="progress-card">
-    <div class="progress-header">
-      <span class="progress-title">// CÁMARAS DE AUTO</span>
-      <span class="progress-nums">
-        <span id="done-auto">0</span> /
-        <span id="total-auto">0</span>
-      </span>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill fill-auto" id="bar-auto"></div>
-    </div>
-
-    <div class="progress-pct" id="pct-auto">
-      0% completado
-    </div>
-  </div>
-
-  <div class="reset-row">
-    <button class="btn-reset" onclick="confirmReset('auto')">
-      Resetear autos
-    </button>
-  </div>
-
   <div class="items-grid" id="grid-auto"></div>
 </div>
 
 <div class="section" id="sec-picos">
-  <div class="progress-card">
-    <div class="progress-header">
-      <span class="progress-title">// PICOS</span>
-      <span class="progress-nums">
-        <span id="done-picos">0</span> /
-        <span id="total-picos">0</span>
-      </span>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill fill-picos" id="bar-picos"></div>
-    </div>
-
-    <div class="progress-pct" id="pct-picos">
-      0% completado
-    </div>
-  </div>
-
-  <div class="reset-row">
-    <button class="btn-reset" onclick="confirmReset('picos')">
-      Resetear picos
-    </button>
-  </div>
-
   <div class="items-grid" id="grid-picos"></div>
 </div>
 
-<div class="log-section">
+<div class="summary" id="summaryBox">
 
-  <div class="log-header">
-
-    <span class="log-title">
-      // REGISTROS GUARDADOS
-    </span>
-
-    <div style="display:flex;gap:8px;">
-
-      <button class="btn-clear" onclick="toggleSavedLogs()">
-        Abrir registro
-      </button>
-
-      <button class="btn-clear" onclick="clearSavedLogs()">
-        Limpiar
-      </button>
-
-    </div>
-
+  <div class="summary-title">
+    // RESUMEN DEL DÍA
   </div>
 
-  <ul
-    class="log-list"
-    id="saved-log-list"
-    style="display:none;"
-  >
-    <li class="log-empty">
-      No hay registros guardados
-    </li>
-  </ul>
+  <div id="summaryContent"></div>
+
+</div>
+
+<div class="logs">
+
+  <div class="logs-title">
+    // CIERRES GUARDADOS
+  </div>
+
+  <div id="logsContainer"></div>
 
 </div>
 
 </main>
 
-<div class="modal-overlay" id="modal">
-
-  <div class="modal">
-
-    <h3>
-      ¿Resetear este grupo?
-    </h3>
-
-    <p>
-      Se van a borrar las cantidades y fechas guardadas.
-    </p>
-
-    <div class="modal-actions">
-
-      <button class="btn-cancel" onclick="closeModal()">
-        Cancelar
-      </button>
-
-      <button class="btn-confirm" onclick="doReset()">
-        Resetear
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
 <script>
 
-const STORAGE_KEY = 'camctrl_final_working';
+const STORAGE_KEY = 'camctrl_stock_real';
+const LOGS_KEY = 'camctrl_logs_real';
 
 const CATALOG = {
 
   moto:[
-    {label:'14',qty:1},
-    {label:'17.300',qty:1},
-    {label:'17.400',qty:1},
-    {label:'18.400',qty:1},
-    {label:'18.300',qty:1},
-    {label:'350.10',qty:1},
-    {label:'16',qty:2},
-    {label:'21',qty:1},
-    {label:'15',qty:1},
-    {label:'19',qty:1},
-    {label:'13',qty:1},
+    '14',
+    '17.300',
+    '17.400',
+    '18.400',
+    '18.300',
+    '350.10',
+    '16',
+    '21',
+    '15',
+    '19',
+    '13'
   ],
 
   bici:[
-    {label:'28',qty:1},
-    {label:'29',qty:1},
-    {label:'26',qty:1},
-    {label:'27',qty:1},
-    {label:'12',qty:1},
-    {label:'24',qty:1},
-    {label:'16',qty:1},
-    {label:'20',qty:1},
-    {label:'14',qty:1},
+    '28',
+    '29',
+    '26',
+    '27',
+    '12',
+    '24',
+    '16',
+    '20',
+    '14'
   ],
 
   auto:[
-    {label:'750.16',qty:1},
-    {label:'700.12',qty:1},
-    {label:'750.20',qty:1},
-    {label:'GR15 TR13',qty:1},
-    {label:'KR16 TR15',qty:1},
-    {label:'GR16 TR15',qty:1},
-    {label:'14',qty:1},
-    {label:'13',qty:1},
-    {label:'GR16 TR13',qty:1},
-    {label:'KR15 TR15',qty:1},
-    {label:'400.8',qty:1},
-    {label:'650.10',qty:1},
-    {label:'600.9',qty:1},
-    {label:'500.8',qty:1},
+    '750.16',
+    '700.12',
+    '750.20',
+    'GR15 TR13',
+    'KR16 TR15',
+    'GR16 TR15',
+    '14',
+    '13',
+    'GR16 TR13',
+    'KR15 TR15',
+    '400.8',
+    '650.10',
+    '600.9',
+    '500.8'
   ],
 
   picos:[
-    {label:'Pico Moto',qty:1},
-    {label:'Pico Bici',qty:1},
-    {label:'Pico Auto',qty:1},
-    {label:'Pico Fino',qty:1},
-    {label:'Pico Grueso',qty:1},
+    'Pico Moto',
+    'Pico Bici',
+    'Pico Auto',
+    'Pico Fino',
+    'Pico Grueso'
   ]
 
 };
 
-let state = loadState();
-let savedLogs = loadSavedLogs();
-let resetTarget = null;
+let state = JSON.parse(
+  localStorage.getItem(STORAGE_KEY)
+) || {};
 
-function loadState(){
-
-  try{
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  }catch{
-    return {};
-  }
-
-}
+let logs = JSON.parse(
+  localStorage.getItem(LOGS_KEY)
+) || [];
 
 function saveState(){
 
@@ -771,30 +486,16 @@ function saveState(){
 
 }
 
-function loadSavedLogs(){
-
-  try{
-    return JSON.parse(
-      localStorage.getItem('camctrl_saved_logs')
-    ) || [];
-  }catch{
-    return [];
-  }
-
-}
-
-function saveSavedLogs(){
+function saveLogs(){
 
   localStorage.setItem(
-    'camctrl_saved_logs',
-    JSON.stringify(savedLogs)
+    LOGS_KEY,
+    JSON.stringify(logs)
   );
 
 }
 
 function formatDate(ts){
-
-  if(!ts) return '';
 
   return new Date(ts).toLocaleString('es-AR',{
     day:'2-digit',
@@ -803,264 +504,6 @@ function formatDate(ts){
     hour:'2-digit',
     minute:'2-digit'
   });
-
-}
-
-function getGroup(cat){
-
-  if(!state[cat]){
-    state[cat] = {};
-  }
-
-  return state[cat];
-
-}
-
-function buildGrid(cat){
-
-  const grid =
-    document.getElementById('grid-' + cat);
-
-  const items = CATALOG[cat];
-
-  const group = getGroup(cat);
-
-  grid.innerHTML = items.map((item,i)=>{
-
-    const key = cat + '_' + i;
-
-    const entry = group[key] || {
-      qty:0,
-      done:false,
-      loadedAt:null
-    };
-
-    return `
-
-      <div
-        class="item-btn ${entry.done ? 'done ' + cat : ''}"
-        id="btn-${key}"
-        onclick="toggleItem('${cat}',${i})"
-      >
-
-        <span class="item-check">✓</span>
-
-        <div class="item-label">
-          ${item.label}
-        </div>
-
-        <div class="item-date" id="date-${key}">
-          ${entry.loadedAt ? formatDate(entry.loadedAt) : ''}
-        </div>
-
-        <div class="qty-row" onclick="event.stopPropagation()">
-
-          <button
-            class="qty-btn"
-            onclick="changeQty('${cat}',${i},-1)"
-          >
-            −
-          </button>
-
-          <span class="qty-display" id="qty-${key}">
-            ${entry.qty || 0}
-          </span>
-
-          <button
-            class="qty-btn"
-            onclick="changeQty('${cat}',${i},1)"
-          >
-            +
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }).join('');
-
-}
-
-function toggleItem(cat,idx){
-
-  const key = cat + '_' + idx;
-
-  const item = CATALOG[cat][idx];
-
-  const group = getGroup(cat);
-
-  if(!group[key]){
-
-    group[key] = {
-      qty:0,
-      done:false,
-      loadedAt:null
-    };
-
-  }
-
-  const entry = group[key];
-
-  entry.done = !entry.done;
-
-  if(entry.done){
-
-    entry.qty = item.qty;
-    entry.loadedAt = Date.now();
-
-  }else{
-
-    entry.qty = 0;
-    entry.loadedAt = null;
-
-  }
-
-  saveState();
-
-  updateBtn(cat,idx);
-  updateProgress(cat);
-  updateHeader();
-
-}
-
-function changeQty(cat,idx,delta){
-
-  const key = cat + '_' + idx;
-
-  const group = getGroup(cat);
-
-  if(!group[key]){
-
-    group[key] = {
-      qty:0,
-      done:false,
-      loadedAt:null
-    };
-
-  }
-
-  const entry = group[key];
-
-  const newQty =
-    Math.max(0,(entry.qty || 0) + delta);
-
-  entry.qty = newQty;
-
-  entry.done = newQty > 0;
-
-  if(newQty > 0 && !entry.loadedAt){
-    entry.loadedAt = Date.now();
-  }
-
-  if(newQty === 0){
-    entry.loadedAt = null;
-  }
-
-  saveState();
-
-  updateBtn(cat,idx);
-  updateProgress(cat);
-  updateHeader();
-
-}
-
-function updateBtn(cat,idx){
-
-  const key = cat + '_' + idx;
-
-  const entry =
-    getGroup(cat)[key] || {};
-
-  const btn =
-    document.getElementById('btn-' + key);
-
-  const qty =
-    document.getElementById('qty-' + key);
-
-  const date =
-    document.getElementById('date-' + key);
-
-  if(entry.done){
-
-    btn.classList.add('done',cat);
-
-  }else{
-
-    btn.classList.remove('done',cat);
-
-  }
-
-  qty.textContent = entry.qty || 0;
-
-  date.textContent =
-    entry.loadedAt
-      ? formatDate(entry.loadedAt)
-      : '';
-
-}
-
-function updateProgress(cat){
-
-  const group = getGroup(cat);
-
-  const total = CATALOG[cat].length;
-
-  const done = CATALOG[cat].filter((_,i)=>
-
-    (group[cat + '_' + i] || {}).done
-
-  ).length;
-
-  const pct =
-    total
-      ? Math.round(done / total * 100)
-      : 0;
-
-  document.getElementById(
-    'done-' + cat
-  ).textContent = done;
-
-  document.getElementById(
-    'total-' + cat
-  ).textContent = total;
-
-  document.getElementById(
-    'bar-' + cat
-  ).style.width = pct + '%';
-
-  document.getElementById(
-    'pct-' + cat
-  ).textContent =
-    pct + '% completado';
-
-  document.getElementById(
-    'tc-' + cat
-  ).textContent =
-    done + '/' + total;
-
-}
-
-function updateHeader(){
-
-  ['moto','bici','auto']
-    .forEach(cat=>{
-
-      const group = getGroup(cat);
-
-      const done =
-        CATALOG[cat].filter((_,i)=>
-
-          (group[cat + '_' + i] || {}).done
-
-        ).length;
-
-      document.getElementById(
-        'h-' + cat
-      ).textContent = done;
-
-    });
 
 }
 
@@ -1080,199 +523,421 @@ function switchTab(cat,el){
 
 }
 
-function manualSave(){
+function buildGrid(cat){
 
-  const snapshot = {
+  const grid =
+    document.getElementById('grid-' + cat);
 
-    date:Date.now(),
+  grid.innerHTML =
+    CATALOG[cat].map((name,index)=>{
 
-    data:JSON.parse(
-      JSON.stringify({
-        moto:state.moto || {},
-        bici:state.bici || {},
-        auto:state.auto || {},
-        picos:state.picos || {}
-      })
-    )
+      const key =
+        cat + '_' + index;
 
-  };
+      if(!state[key]){
 
-  savedLogs.unshift(snapshot);
+        state[key] = {
 
-  if(savedLogs.length > 50){
-    savedLogs = savedLogs.slice(0,50);
-  }
+          stock:0,
+          vendidos:0,
+          date:null
 
-  saveSavedLogs();
+        };
 
-  renderSavedLogs();
+      }
 
-  alert(
-    'Registro guardado correctamente'
-  );
+      const data = state[key];
+
+      const restante =
+        data.stock - data.vendidos;
+
+      return `
+
+        <div class="item">
+
+          <div class="item-title">
+            ${name}
+          </div>
+
+          <div class="item-stock">
+            Stock inicial: ${data.stock}
+          </div>
+
+          <div class="item-date">
+
+            ${
+              data.date
+              ? 'Último movimiento: ' + formatDate(data.date)
+              : ''
+            }
+
+          </div>
+
+          <div class="row">
+
+            <div>
+
+              <div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">
+                Cargar stock
+              </div>
+
+              <div class="counter">
+
+                <button onclick="changeStock('${key}',-1)">
+                  −
+                </button>
+
+                <div class="counter-value">
+                  ${data.stock}
+                </div>
+
+                <button onclick="changeStock('${key}',1)">
+                  +
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div>
+
+              <div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">
+                Vendidos
+              </div>
+
+              <div class="counter">
+
+                <button onclick="changeVendidos('${key}',-1)">
+                  −
+                </button>
+
+                <div class="counter-value">
+                  ${data.vendidos}
+                </div>
+
+                <button onclick="changeVendidos('${key}',1)">
+                  +
+                </button>
+
+              </div>
+
+            </div>
+
+            <div class="stock-left">
+              Restan: ${restante}
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join('');
 
 }
 
-function renderSavedLogs(){
+function changeStock(key,delta){
 
-  const ul =
-    document.getElementById('saved-log-list');
+  if(!state[key]){
 
-  if(!savedLogs.length){
+    state[key] = {
+      stock:0,
+      vendidos:0,
+      date:null
+    };
 
-    ul.innerHTML = `
-      <li class="log-empty">
-        No hay registros guardados
-      </li>
-    `;
+  }
+
+  let next =
+    state[key].stock + delta;
+
+  if(next < 0){
+    next = 0;
+  }
+
+  state[key].stock = next;
+
+  if(state[key].vendidos > next){
+
+    state[key].vendidos = next;
+
+  }
+
+  state[key].date = Date.now();
+
+  saveState();
+
+  refreshAll();
+
+}
+
+function changeVendidos(key,delta){
+
+  if(!state[key]){
+
+    state[key] = {
+      stock:0,
+      vendidos:0,
+      date:null
+    };
+
+  }
+
+  let next =
+    state[key].vendidos + delta;
+
+  if(next < 0){
+    next = 0;
+  }
+
+  if(next > state[key].stock){
+    next = state[key].stock;
+  }
+
+  state[key].vendidos = next;
+
+  state[key].date = Date.now();
+
+  saveState();
+
+  refreshAll();
+
+}
+
+function updateResume(){
+
+  ['moto','bici','auto','picos']
+    .forEach(cat=>{
+
+      let total = 0;
+
+      CATALOG[cat]
+        .forEach((_,index)=>{
+
+          const key =
+            cat + '_' + index;
+
+          total +=
+            state[key]?.stock || 0;
+
+        });
+
+      document.getElementById(
+        'resume-' + cat
+      ).textContent = total;
+
+    });
+
+}
+
+function mostrarResumen(){
+
+  const box =
+    document.getElementById('summaryBox');
+
+  const content =
+    document.getElementById('summaryContent');
+
+  let html = '';
+
+  Object.keys(CATALOG)
+    .forEach(cat=>{
+
+      html += `
+
+        <div class="summary-line">
+          <strong>${cat.toUpperCase()}</strong>
+        </div>
+
+      `;
+
+      CATALOG[cat]
+        .forEach((name,index)=>{
+
+          const key =
+            cat + '_' + index;
+
+          const stock =
+            state[key]?.stock || 0;
+
+          const vendidos =
+            state[key]?.vendidos || 0;
+
+          const restante =
+            stock - vendidos;
+
+          html += `
+
+            <div class="summary-line">
+
+              ${name}
+
+              — Stock: ${stock}
+
+              — Vendidos: ${vendidos}
+
+              — Restan: ${restante}
+
+            </div>
+
+          `;
+
+        });
+
+    });
+
+  content.innerHTML = html;
+
+  box.style.display = 'block';
+
+}
+
+function guardarCierre(){
+
+  const items = [];
+
+  Object.keys(CATALOG)
+    .forEach(cat=>{
+
+      CATALOG[cat]
+        .forEach((name,index)=>{
+
+          const key =
+            cat + '_' + index;
+
+          const data =
+            state[key];
+
+          if(data && data.stock > 0){
+
+            items.push({
+
+              categoria:cat,
+              nombre:name,
+              stock:data.stock,
+              vendidos:data.vendidos,
+              restante:data.stock - data.vendidos
+
+            });
+
+          }
+
+        });
+
+    });
+
+  logs.unshift({
+
+    fecha:Date.now(),
+    items
+
+  });
+
+  if(logs.length > 30){
+
+    logs = logs.slice(0,30);
+
+  }
+
+  saveLogs();
+
+  renderLogs();
+
+  alert('Cierre guardado correctamente');
+
+}
+
+function renderLogs(){
+
+  const container =
+    document.getElementById('logsContainer');
+
+  if(!logs.length){
+
+    container.innerHTML =
+      '<div style="color:var(--muted)">No hay cierres guardados</div>';
 
     return;
 
   }
 
-  ul.innerHTML = savedLogs.map((item,index)=>`
+  container.innerHTML =
+    logs.map(log=>`
 
-    <li class="log-item">
+      <div class="log">
 
-      <div>
+        <div class="log-date">
+          ${formatDate(log.fecha)}
+        </div>
 
-        Registro #${savedLogs.length - index}
+        <div class="log-content">
 
-        <br>
+          ${
+            log.items.map(item=>`
 
-        <span style="color:var(--muted);font-size:0.65rem;">
-          ${formatDate(item.date)}
-        </span>
+              <div>
+
+                <strong>
+                  ${item.categoria.toUpperCase()}
+                </strong>
+
+                —
+                ${item.nombre}
+
+                | Stock: ${item.stock}
+
+                | Vendidos: ${item.vendidos}
+
+                | Restan: ${item.restante}
+
+              </div>
+
+            `).join('')
+          }
+
+        </div>
 
       </div>
 
-      <button
-        class="btn-clear"
-        onclick="loadSavedRegister(${index})"
-      >
-        Abrir
-      </button>
-
-    </li>
-
-  `).join('');
+    `).join('');
 
 }
 
-function toggleSavedLogs(){
+function reiniciarVentas(){
 
-  const el =
-    document.getElementById('saved-log-list');
-
-  if(el.style.display === 'none'){
-
-    el.style.display = 'block';
-
-  }else{
-
-    el.style.display = 'none';
-
-  }
-
-}
-
-function loadSavedRegister(index){
-
-  const register = savedLogs[index];
-
-  if(!register) return;
-
-  state.moto = register.data.moto || {};
-  state.bici = register.data.bici || {};
-  state.auto = register.data.auto || {};
-  state.picos = register.data.picos || {};
-
-  saveState();
-
-  ['moto','bici','auto','picos']
-    .forEach(cat=>{
-
-      buildGrid(cat);
-      updateProgress(cat);
-
-    });
-
-  updateHeader();
-
-  alert(
-    'Registro cargado:\n\n' +
-    formatDate(register.date)
-  );
-
-}
-
-function clearSavedLogs(){
-
-  if(!confirm('¿Eliminar todos los registros guardados?')){
+  if(!confirm('¿Reiniciar ventas del día?')){
     return;
   }
 
-  savedLogs = [];
+  Object.keys(state)
+    .forEach(key=>{
 
-  localStorage.removeItem(
-    'camctrl_saved_logs'
-  );
-
-  renderSavedLogs();
-
-}
-
-function confirmReset(cat){
-
-  resetTarget = cat;
-
-  document.getElementById('modal')
-    .classList.add('open');
-
-}
-
-function closeModal(){
-
-  document.getElementById('modal')
-    .classList.remove('open');
-
-  resetTarget = null;
-
-}
-
-function doReset(){
-
-  if(!resetTarget) return;
-
-  state[resetTarget] = {};
-
-  saveState();
-
-  buildGrid(resetTarget);
-  updateProgress(resetTarget);
-  updateHeader();
-
-  closeModal();
-
-}
-
-function init(){
-
-  ['moto','bici','auto','picos']
-    .forEach(cat=>{
-
-      buildGrid(cat);
-      updateProgress(cat);
+      state[key].vendidos = 0;
 
     });
 
-  updateHeader();
+  saveState();
 
-  renderSavedLogs();
+  refreshAll();
 
 }
 
-init();
+function refreshAll(){
+
+  ['moto','bici','auto','picos']
+    .forEach(buildGrid);
+
+  updateResume();
+
+}
+
+refreshAll();
+renderLogs();
 
 </script>
 
